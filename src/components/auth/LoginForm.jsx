@@ -1,12 +1,11 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../common/Feild";
 
 export default function LoginForm() {
-  const { setAuthData, setIsLoggedIn } = useAuth();
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -21,44 +20,12 @@ export default function LoginForm() {
         `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
         formData
       );
+
       if (response.status === 200) {
         const data = response.data;
         if (data) {
           const { user, token } = data;
-          const username = `${user.firstName} ${user.lastName}`;
-          const avatar = user.avatar;
-          const accessToken = token.accessToken;
-          const refreshToken = token.refreshToken;
-
-          // Set expiration times in hours
-          const accessTokenExpiryHours = 2; // 2 hours
-          const refreshTokenExpiryHours = 24; // 1 day
-
-          // Set cookies for user info
-          Cookies.set("username", username, {
-            expires: refreshTokenExpiryHours / 24,
-            secure: true,
-          });
-          Cookies.set("avatar", avatar, {
-            expires: refreshTokenExpiryHours / 24,
-            secure: true,
-          });
-
-          // Set cookies for tokens
-          Cookies.set("accessToken", accessToken, {
-            expires: accessTokenExpiryHours / 24,
-            secure: true,
-          });
-
-          Cookies.set("refreshToken", refreshToken, {
-            expires: refreshTokenExpiryHours / 24,
-            secure: true,
-          });
-
-          setAuthData({ username, avatar, accessToken, refreshToken });
-          setIsLoggedIn(true);
-
-          console.log("User data stored in cookies");
+          setAuth({ user, token });
 
           navigate("/");
         }

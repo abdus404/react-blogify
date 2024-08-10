@@ -1,17 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { useId } from "../../hooks/useId";
+import { useProfile } from "../../hooks/useProfile";
 import Login from "./Login";
 import Logout from "./Logout";
 import Search from "./Search";
 
 export default function Header() {
-  const { authData, isLoggedIn } = useAuth();
+  const { auth } = useAuth();
+  const { state } = useProfile();
+  const { setUserId } = useId();
 
-  console.log(authData);
+  const navigate = useNavigate();
+
+  const avatar = state?.avatar ?? auth?.user?.avatar;
+  const isLoggedIn = auth?.token?.accessToken;
 
   // Generate initial for avatar if no avatar image is available
-  const generateAvatarInitial = (username) => {
-    return username ? username.charAt(0).toUpperCase() : "U";
+  const generateAvatarInitial = (firstName) => {
+    return firstName ? firstName.charAt(0).toUpperCase() : "U";
+  };
+
+  const handleProfile = () => {
+    // Assuming the user's ID is stored in auth.user.id
+    const userId = auth?.user?.id;
+    if (userId) {
+      setUserId(userId);
+      navigate(`/profile/${userId}`);
+    }
   };
 
   return (
@@ -37,25 +53,27 @@ export default function Header() {
             )}
             <Search />
             {isLoggedIn ? <Logout /> : <Login />}
-            <li className="flex items-center">
+            <li className="flex items-center" onClick={handleProfile}>
               {isLoggedIn && (
                 <>
-                  {authData?.avatar ? (
+                  {avatar ? (
                     <img
                       src={`${
                         import.meta.env.VITE_SERVER_BASE_URL
-                      }/uploads/avatar/${authData.avatar}`}
+                      }/uploads/avatar/${avatar}`}
                       alt="User Avatar"
                       className="w-8 h-8 rounded-full"
                     />
                   ) : (
                     <div className="w-8 h-8 flex items-center justify-center bg-orange-600 text-white rounded-full">
-                      <span>{generateAvatarInitial(authData?.username)}</span>
+                      <span>
+                        {generateAvatarInitial(auth?.user?.firstName)}
+                      </span>
                     </div>
                   )}
                   <Link to="/profile">
                     <span className="text-white ml-2">
-                      {authData?.username}
+                      {`${auth?.user?.firstName} ${auth?.user?.lastName}`}
                     </span>
                   </Link>
                 </>

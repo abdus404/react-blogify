@@ -1,23 +1,11 @@
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 export default function Logout() {
-  const { setAuthData, setIsLoggedIn } = useAuth();
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
   function logout() {
-    Cookies.remove("username");
-    Cookies.remove("avatar");
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
-    console.log("User logged out");
-    setAuthData({
-      username: "",
-      avatar: "",
-      accessToken: "",
-      refreshToken: "",
-    });
-    setIsLoggedIn(false);
+    setAuth({});
     navigate("/login");
   }
   return (
