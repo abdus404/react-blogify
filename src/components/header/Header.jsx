@@ -30,6 +30,14 @@ export default function Header() {
     }
   };
 
+  const handleWrite = () => {
+    if (isLoggedIn) {
+      navigate(`/create-blog`);
+    } else {
+      navigate(`/login`);
+    }
+  };
+
   return (
     <header>
       <nav className="container">
@@ -41,16 +49,14 @@ export default function Header() {
         </div>
         <div>
           <ul className="flex items-center space-x-5">
-            {isLoggedIn && (
-              <li>
-                <Link
-                  to="/create-blog"
-                  className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
-                >
-                  Write
-                </Link>
-              </li>
-            )}
+            <li>
+              <button
+                onClick={handleWrite}
+                className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
+              >
+                Write
+              </button>
+            </li>
             <Search />
             {isLoggedIn ? <Logout /> : <Login />}
             <li className="flex items-center" onClick={handleProfile}>
