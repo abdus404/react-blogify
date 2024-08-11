@@ -1,16 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import { useId } from "../../hooks/useId";
 import { formatDate } from "../../utils/formatDate";
 
-export default function PostAuthor({ post }) {
+export default function BlogAuthor({ blog }) {
   const navigate = useNavigate();
   const { setUserId } = useId();
+  const { auth } = useAuth();
 
   const handleProfile = () => {
-    const userId = post?.author?.id;
-    if (userId) {
+    const userId = blog?.author?.id;
+    const accessToken = auth?.token?.accessToken;
+    if (accessToken) {
       setUserId(userId);
       navigate(`/profile/${userId}`);
+    } else {
+      navigate(`/login`);
     }
   };
 
@@ -33,21 +38,21 @@ export default function PostAuthor({ post }) {
             <img
               className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
               src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${
-                post?.author?.avatar
+                blog?.author?.avatar
               }`}
               alt="Avatar"
             />
           </div>
           <div>
-            <h5 className="text-slate-500 text-sm">{`${post?.author?.firstName} ${post?.author?.lastName}`}</h5>
+            <h5 className="text-slate-500 text-sm">{`${blog?.author?.firstName} ${blog?.author?.lastName}`}</h5>
             <div className="flex items-center text-xs text-slate-700">
-              <span>{formatDate(post?.createdAt)}</span>
+              <span>{formatDate(blog?.createdAt)}</span>
             </div>
           </div>
         </div>
       </button>
       <div className="text-sm px-2 py-1 text-slate-700">
-        <span>{formatLikes(post?.likes?.length)}</span>
+        <span>{formatLikes(blog?.likes?.length)}</span>
       </div>
     </div>
   );

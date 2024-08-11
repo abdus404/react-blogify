@@ -1,6 +1,7 @@
 import { actions } from "../actions";
 
 const initialState = {
+  id: "",
   email: "",
   firstName: "",
   lastName: "",
@@ -23,6 +24,7 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
+        id: action.data.id,
         email: action.data.email,
         firstName: action.data.firstName,
         lastName: action.data.lastName,

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { actions } from "../actions";
-import MyPost from "../components/profile/MyPost";
+import MyBlog from "../components/profile/MyBlog";
 import ProfileBio from "../components/profile/ProfileBio";
 import ProfileImage from "../components/profile/ProfileImage";
 import ProfileInfo from "../components/profile/ProfileInfo";
@@ -12,6 +13,7 @@ export default function ProfilePage() {
   const { api } = useAxios();
   const { userId } = useId();
   const { state, dispatch } = useProfile();
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch({ type: actions.profile.DATA_FETCHING });
@@ -32,7 +34,7 @@ export default function ProfilePage() {
       }
     };
     fetchProfile();
-  }, []);
+  }, [id]);
 
   if (state?.loading) {
     return <div> Fetching your profile data...</div>;
@@ -47,7 +49,7 @@ export default function ProfilePage() {
         <div className="w-3/4 border-b border-[#3F3F3F] py-6 lg:py-8" />
       </div>
       <h4 className="mt-6 text-xl lg:mt-8 lg:text-2xl">Your Blogs</h4>
-      <MyPost />
+      <MyBlog />
     </div>
   );
 }

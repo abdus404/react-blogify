@@ -1,9 +1,9 @@
-import PostAuthor from "./PostAuthor";
+import BlogAuthor from "./BlogAuthor";
 
-export default function PostCard({ posts }) {
+export default function BlogCard({ blogs }) {
   // Utility to truncate content to 100 characters
   const truncateContent = (content) => {
-    return content.length > 100 ? `${content.slice(0, 200)}...` : content;
+    return content.length > 100 ? `${content.slice(0, 160)}...` : content;
   };
 
   // Utility to format like count text
@@ -19,25 +19,25 @@ export default function PostCard({ posts }) {
 
   return (
     <>
-      {posts.length > 0 &&
-        posts.map((post) => (
-          <div key={post.id} className="blog-card">
+      {blogs.length > 0 &&
+        blogs.map((blog) => (
+          <div key={blog.id} className="blog-card">
             <img
               className="blog-thumb"
               src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/blog/${
-                post?.thumbnail
+                blog?.thumbnail
               }`}
-              alt="postImage"
+              alt="blogImage"
             />
             <div className="mt-2">
               <h3 className="text-slate-300 text-xl lg:text-2xl">
-                {post.title}
+                {blog.title}
               </h3>
               <p className="mb-6 text-base text-slate-500 mt-1">
-                {truncateContent(post.content)}
+                {truncateContent(blog.content)}
               </p>
               {/* Meta Informations */}
-              <PostAuthor post={post} />
+              <BlogAuthor blog={blog} />
             </div>
           </div>
         ))}

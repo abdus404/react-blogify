@@ -1,14 +1,14 @@
 import { useProfile } from "../../hooks/useProfile";
-import PostCard from "../post/PostCard";
+import BlogCard from "../blog/BlogCard";
 
-export default function MyPost() {
+export default function MyBlog() {
   const { state } = useProfile();
-  const posts = state?.blogs;
+  const blogs = state?.blogs;
 
   return (
     <div className="my-6 space-y-4">
       {/* Blog Card Start */}
-      <PostCard posts={posts} />
+      <BlogCard blogs={blogs} />
     </div>
   );
 }

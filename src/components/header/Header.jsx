@@ -1,19 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useId } from "../../hooks/useId";
-import { useProfile } from "../../hooks/useProfile";
 import Login from "./Login";
 import Logout from "./Logout";
 import Search from "./Search";
 
 export default function Header() {
   const { auth } = useAuth();
-  const { state } = useProfile();
   const { setUserId } = useId();
 
   const navigate = useNavigate();
 
-  const avatar = state?.avatar ?? auth?.user?.avatar;
+  const avatar = auth?.user?.avatar;
   const isLoggedIn = auth?.token?.accessToken;
 
   // Generate initial for avatar if no avatar image is available
@@ -27,6 +25,8 @@ export default function Header() {
     if (userId) {
       setUserId(userId);
       navigate(`/profile/${userId}`);
+    } else {
+      navigate(`/login`);
     }
   };
 
