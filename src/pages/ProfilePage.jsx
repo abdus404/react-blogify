@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { actions } from "../actions";
@@ -5,12 +6,10 @@ import MyBlog from "../components/profile/MyBlog";
 import ProfileBio from "../components/profile/ProfileBio";
 import ProfileImage from "../components/profile/ProfileImage";
 import ProfileInfo from "../components/profile/ProfileInfo";
-import useAxios from "../hooks/useAxios";
 import { useId } from "../hooks/useId";
 import { useProfile } from "../hooks/useProfile";
 
 export default function ProfilePage() {
-  const { api } = useAxios();
   const { userId } = useId();
   const { state, dispatch } = useProfile();
   const { id } = useParams();
@@ -19,7 +18,7 @@ export default function ProfilePage() {
     dispatch({ type: actions.profile.DATA_FETCHING });
     const fetchProfile = async () => {
       try {
-        const response = await api.get(
+        const response = await axios.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${userId}`
         );
         if (response.status === 200) {
