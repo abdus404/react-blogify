@@ -18,7 +18,10 @@ export default function useAxios() {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => {
+        console.error("Request error:", error);
+        return Promise.reject(error);
+      }
     );
 
     // Response interceptor
@@ -30,24 +33,32 @@ export default function useAxios() {
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           try {
-            const refreshToken = auth?.token?.accessToken;
+            const refreshToken = auth?.token?.refreshToken;
+            if (!refreshToken) {
+              throw new Error("No refresh token available");
+            }
+
             const response = await axios.post(
               `${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh-token`,
               { refreshToken }
             );
 
             const { accessToken } = response.data;
+            if (!accessToken) {
+              throw new Error("Access token not returned");
+            }
 
-            console.log(`New accessToken: ${accessToken}`);
-            setAuth((prev) => ({ ...prev, accessToken }));
+            setAuth((prev) => ({
+              ...prev,
+              token: { ...prev.token, accessToken },
+            }));
 
-            // Retry the original request with the new token
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return api(originalRequest);
           } catch (error) {
             console.error("Error refreshing token:", error);
-            // Optionally, handle the error (e.g., logout the user)
-            navigate("/login");
+            setAuth(null); // Clear auth state
+            navigate("/login"); // Redirect to login page
             return Promise.reject(error);
           }
         }

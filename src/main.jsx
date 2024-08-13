@@ -4,6 +4,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 import AuthProvider from "./providers/AuthProvider.jsx";
+import BlogIdProvider from "./providers/BlogIdProvider.jsx";
+import BlogProvider from "./providers/BlogProvider.jsx";
 import ProfileProvider from "./providers/ProfileProvider.jsx";
 import UserIdProvider from "./providers/UserIdProvider.jsx";
 
@@ -12,9 +14,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <ProfileProvider>
         <UserIdProvider>
-          <Router>
-            <App />
-          </Router>
+          <BlogProvider>
+            <BlogIdProvider>
+              <Router>
+                <App />
+              </Router>
+            </BlogIdProvider>
+          </BlogProvider>
         </UserIdProvider>
       </ProfileProvider>
     </AuthProvider>

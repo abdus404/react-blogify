@@ -4,25 +4,22 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegistrationPage from "./pages/RegistrationPage";
-import BlogProvider from "./providers/BlogProvider";
+import SingleBlogPage from "./pages/SingleBlogPage";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   return (
     <>
       <Routes>
         <Route element={<Layout />}>
-          <Route
-            path="/"
-            element={
-              <BlogProvider>
-                <HomePage />
-              </BlogProvider>
-            }
-          />
+          <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           {/* Dynamic profile route */}
-          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="/blogs/:id" element={<SingleBlogPage />} />
+          </Route>
         </Route>
       </Routes>
     </>

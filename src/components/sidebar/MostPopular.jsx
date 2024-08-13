@@ -1,8 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useBlogId } from "../../hooks/useBlogId";
+import { useId } from "../../hooks/useId";
 
 export default function MostPopular() {
   const [blogs, setBlogs] = useState("");
+  const { setBlogId } = useBlogId();
+  const { setUserId } = useId();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchblog = async () => {
@@ -32,6 +38,18 @@ export default function MostPopular() {
     }
   };
 
+  const handleBlogClick = (blogId) => {
+    console.log(blogId);
+    setBlogId(blogId);
+    navigate(`/blogs/${blogId}`);
+  };
+
+  const handleProfileClick = (userId) => {
+    console.log(userId);
+    setUserId(userId);
+    navigate(`/profile/${userId}`);
+  };
+
   return (
     <div className="sidebar-card">
       <h3 className="text-slate-300 text-xl lg:text-2xl font-semibold">
@@ -41,12 +59,18 @@ export default function MostPopular() {
         {blogs.length > 0 &&
           blogs.map((blog) => (
             <li key={blog?.id}>
-              <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
+              <h3
+                onClick={() => handleBlogClick(blog.id)}
+                className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer"
+              >
                 {blog?.title}
               </h3>
               <p className="text-slate-600 text-sm">
-                by
-                <a href="./profile.html">{`${blog?.author?.firstName} ${blog?.author?.lastName}`}</a>{" "}
+                by {""}
+                <span
+                  className="cursor-pointer"
+                  onClick={() => handleProfileClick(blog?.author?.id)}
+                >{`${blog?.author?.firstName} ${blog?.author?.lastName}`}</span>{" "}
                 <span>{formatLikes(blog?.likes?.length)}</span>
               </p>
             </li>

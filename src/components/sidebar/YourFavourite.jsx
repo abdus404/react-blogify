@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import { useBlogId } from "../../hooks/useBlogId";
 
 export default function YourFavourite() {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState("");
   const { api } = useAxios();
   const { auth } = useAuth();
+  const { setBlogId } = useBlogId();
 
   const accessToken = auth?.token?.accessToken;
 
@@ -27,6 +31,12 @@ export default function YourFavourite() {
     fetchblog();
   }, []);
 
+  const handleBlogClick = (blogId) => {
+    console.log(blogId);
+    setBlogId(blogId);
+    navigate(`/blogs/${blogId}`);
+  };
+
   return (
     <div className="sidebar-card">
       <h3 className="text-slate-300 text-xl lg:text-2xl font-semibold">
@@ -37,7 +47,10 @@ export default function YourFavourite() {
           {blogs.length > 0 &&
             blogs.map((blog) => (
               <li key={blog?.id}>
-                <h3 className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer">
+                <h3
+                  onClick={() => handleBlogClick(blog.id)}
+                  className="text-slate-400 font-medium hover:text-slate-300 transition-all cursor-pointer"
+                >
                   {blog?.title}
                 </h3>
                 <p className="text-slate-600 text-sm">{blog?.tags}</p>
