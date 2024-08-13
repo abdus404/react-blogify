@@ -2,12 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBlogId } from "../../hooks/useBlogId";
-import { useId } from "../../hooks/useId";
+import { useUserId } from "../../hooks/useUserId";
 
 export default function MostPopular() {
   const [blogs, setBlogs] = useState("");
   const { setBlogId } = useBlogId();
-  const { setUserId } = useId();
+  const { setUserId } = useUserId();
   const navigate = useNavigate();
 
   useEffect(() => {

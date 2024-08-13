@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { useId } from "../../hooks/useId";
+import { useUserId } from "../../hooks/useUserId";
 import Login from "./Login";
 import Logout from "./Logout";
 import Search from "./Search";
 
 export default function Header() {
   const { auth } = useAuth();
-  const { setUserId } = useId();
+  const { setUserId } = useUserId();
 
   const navigate = useNavigate();
 

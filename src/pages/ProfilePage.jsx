@@ -6,11 +6,11 @@ import MyBlog from "../components/profile/MyBlog";
 import ProfileBio from "../components/profile/ProfileBio";
 import ProfileImage from "../components/profile/ProfileImage";
 import ProfileInfo from "../components/profile/ProfileInfo";
-import { useId } from "../hooks/useId";
 import { useProfile } from "../hooks/useProfile";
+import { useUserId } from "../hooks/useUserId";
 
 export default function ProfilePage() {
-  const { userId } = useId();
+  const { userId } = useUserId();
   const { state, dispatch } = useProfile();
   const { id } = useParams();
 
