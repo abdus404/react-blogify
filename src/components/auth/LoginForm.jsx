@@ -2,10 +2,12 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { useUserId } from "../../hooks/useUserId";
 import Field from "../common/Feild";
 
 export default function LoginForm() {
   const { setAuth } = useAuth();
+  const { setUserId } = useUserId();
   const navigate = useNavigate();
   const {
     register,
@@ -26,6 +28,7 @@ export default function LoginForm() {
         if (data) {
           const { user, token } = data;
           setAuth({ user, token });
+          setUserId(user?.id);
 
           navigate("/");
         }

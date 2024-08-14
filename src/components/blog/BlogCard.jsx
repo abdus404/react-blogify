@@ -6,11 +6,6 @@ export default function BlogCard({ blogs }) {
   const navigate = useNavigate();
   const { setBlogId } = useBlogId();
 
-  // Utility to truncate content to 100 characters
-  const truncateContent = (content) => {
-    return content.length > 100 ? `${content.slice(0, 160)}...` : content;
-  };
-
   // Utility to format like count text
   const formatLikes = (likeCount) => {
     if (likeCount === 0) {
@@ -20,6 +15,11 @@ export default function BlogCard({ blogs }) {
     } else {
       return `${likeCount} Likes`;
     }
+  };
+
+  // Utility to truncate content to 100 characters
+  const truncateContent = (content) => {
+    return content?.length > 100 ? `${content?.slice(0, 160)}...` : content;
   };
 
   const handleBlogClick = (blogId) => {
@@ -49,7 +49,7 @@ export default function BlogCard({ blogs }) {
                 {blog.title}
               </h3>
               <p className="mb-6 text-base text-slate-500 mt-1">
-                {truncateContent(blog.content)}
+                {truncateContent(blog?.content)}
               </p>
               {/* Meta Informations */}
               <BlogAuthor blog={blog} />

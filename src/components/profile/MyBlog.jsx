@@ -6,8 +6,9 @@ export default function MyBlog() {
   const blogs = state?.blogs;
 
   return (
-    <div className="my-6 space-y-4">
+    <div className="space-y-3 md:col-span-5">
       {/* Blog Card Start */}
+
       <BlogCard blogs={blogs} />
     </div>
   );

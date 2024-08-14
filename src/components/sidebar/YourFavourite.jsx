@@ -15,16 +15,18 @@ export default function YourFavourite() {
 
   useEffect(() => {
     const fetchblog = async () => {
-      try {
-        const response = await api.get(
-          `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/favourites`
-        );
-        if (response.status === 200) {
-          const blogs = response.data.blogs;
-          setBlogs(blogs);
+      if (accessToken) {
+        try {
+          const response = await api.get(
+            `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/favourites`
+          );
+          if (response.status === 200) {
+            const blogs = response.data.blogs;
+            setBlogs(blogs);
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
     };
 
