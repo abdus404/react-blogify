@@ -47,7 +47,7 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        bio: action.data.bio,
+        bio: action.data,
       };
     }
 
