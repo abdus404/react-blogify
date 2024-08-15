@@ -47,13 +47,12 @@ const blogReducer = (state, action) => {
       };
     }
 
-    case actions.blog.blog_DELETED: {
+    case actions.blog.BLOG_DELETED:
       return {
         ...state,
+        blogs: state.blogs.filter((blog) => blog.id !== action.data),
         loading: false,
-        blogs: state.blogs.filter((item) => item.id !== action.data),
       };
-    }
 
     default: {
       return state;

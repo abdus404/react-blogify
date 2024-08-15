@@ -1,10 +1,19 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ThreeDotIcon from "../../assets/icons/3dots.svg";
+import useAuth from "../../hooks/useAuth";
 import { useBlogId } from "../../hooks/useBlogId";
 import BlogAuthor from "./BlogAuthor";
+import DeleteBlog from "./DeleteBlog";
+import EditBlog from "./EditBlog";
 
 export default function BlogCard({ blogs }) {
+  const [popupBlogId, setPopupBlogId] = useState(null);
   const navigate = useNavigate();
   const { setBlogId } = useBlogId();
+  const { auth } = useAuth();
+
+  const userId = auth?.user?.id;
 
   // Utility to format like count text
   const formatLikes = (likeCount) => {
@@ -23,9 +32,13 @@ export default function BlogCard({ blogs }) {
   };
 
   const handleBlogClick = (blogId) => {
-    console.log(blogId);
     setBlogId(blogId);
     navigate(`/blogs/${blogId}`);
+  };
+
+  const handlePopup = (event, blogId) => {
+    event.stopPropagation();
+    setPopupBlogId(popupBlogId === blogId ? null : blogId);
   };
 
   return (
@@ -44,7 +57,7 @@ export default function BlogCard({ blogs }) {
               }`}
               alt="blogImage"
             />
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <h3 className="text-slate-300 text-xl lg:text-2xl">
                 {blog.title}
               </h3>
@@ -53,6 +66,20 @@ export default function BlogCard({ blogs }) {
               </p>
               {/* Meta Informations */}
               <BlogAuthor blog={blog} />
+              {userId === blog?.author?.id && (
+                <div className="absolute right-0 top-0">
+                  <button onClick={(event) => handlePopup(event, blog.id)}>
+                    <img src={ThreeDotIcon} alt="3dots of Action" />
+                  </button>
+                  {/* Action Menus Popup */}
+                  {popupBlogId === blog?.id && (
+                    <div className="action-modal-container">
+                      <EditBlog blog={blog} />
+                      <DeleteBlog blog={blog} />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}

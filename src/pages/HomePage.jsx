@@ -6,7 +6,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import { useBlog } from "../hooks/useBlog";
 
 export default function HomePage() {
-  const { state, dispatch } = useBlog();
+  const { dispatch } = useBlog();
 
   useEffect(() => {
     dispatch({ type: actions.blog.DATA_FETCHING });
@@ -35,14 +35,6 @@ export default function HomePage() {
 
     fetchblog();
   }, []);
-
-  if (state?.loading) {
-    return <div> We are working...</div>;
-  }
-
-  if (state?.error) {
-    return <div> Error in fatching blogs {state?.error?.message}</div>;
-  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
