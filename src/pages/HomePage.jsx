@@ -13,10 +13,8 @@ export default function HomePage() {
 
     const fetchblog = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 600));
-
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_BASE_URL}/blogs?page=1`
+          `${import.meta.env.VITE_SERVER_BASE_URL}/blogs`
         );
         if (response.status === 200) {
           dispatch({

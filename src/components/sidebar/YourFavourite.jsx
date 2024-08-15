@@ -17,6 +17,8 @@ export default function YourFavourite() {
     const fetchblog = async () => {
       if (accessToken) {
         try {
+          // await new Promise((resolve) => setTimeout(resolve, 600));
+
           const response = await api.get(
             `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/favourites`
           );

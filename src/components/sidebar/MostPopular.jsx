@@ -13,6 +13,8 @@ export default function MostPopular() {
   useEffect(() => {
     const fetchblog = async () => {
       try {
+        // await new Promise((resolve) => setTimeout(resolve, 600));
+
         const response = await axios.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/popular`
         );

@@ -14,7 +14,7 @@ export default function SingleBlogPage() {
     const fetchBlog = async () => {
       try {
         // Simulate a delay (e.g., 1 second)
-        // await new Promise((resolve) => setTimeout(resolve, 600));
+        await new Promise((resolve) => setTimeout(resolve, 600));
 
         const response = await api.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${blogId}`

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { actions } from "../actions";
@@ -6,23 +6,36 @@ import Field from "../components/common/Feild";
 import useAxios from "../hooks/useAxios";
 import { useBlog } from "../hooks/useBlog";
 import { useBlogId } from "../hooks/useBlogId";
+import { useEditBlog } from "../hooks/useEditBlog";
 
-export default function CreateBlog() {
+export default function EditBlogPage() {
   const [thumbnail, setThumbnail] = useState(null);
+  const { editBlog } = useEditBlog();
+  const { api } = useAxios();
   const navigate = useNavigate();
   const { setBlogId } = useBlogId();
-  const { api } = useAxios();
-  const { state, dispatch } = useBlog();
+  const { dispatch } = useBlog();
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     setError,
   } = useForm();
 
+  useEffect(() => {
+    // Pre-populate form fields with editBlog data
+    if (editBlog) {
+      setValue("title", editBlog.title);
+      setValue("tags", editBlog.tags);
+      setValue("content", editBlog.content);
+    }
+  }, [editBlog, setValue]);
+
   // Function to handle file selection
   const handleFileChange = (event) => {
-    setThumbnail(event.target.files[0]);
+    setThumbnail(event.target.files[0] ?? editBlog?.thumbnail);
   };
 
   const submitForm = async (data) => {
@@ -37,19 +50,18 @@ export default function CreateBlog() {
     }
 
     try {
-      const response = await api.post(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/blogs`,
+      const response = await api.patch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/blogs/${editBlog.id}`, // Pass blog ID in API call
         formData
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         dispatch({
-          type: actions.blog.DATA_CREATED,
+          type: actions.blog.DATA_EDITED,
           data: response.data,
         });
-        setBlogId(response?.data?.blog?.id);
-        navigate(`/blogs/${response?.data?.blog?.id}`);
-        // navigate("/");
+        setBlogId(editBlog?.id);
+        navigate(`/blogs/${editBlog?.id}`);
       }
     } catch (error) {
       console.error(error);
@@ -91,6 +103,7 @@ export default function CreateBlog() {
           onChange={handleFileChange}
         />
       </div>
+
       <Field error={errors.title}>
         <input
           {...register("title", { required: "Title is required" })}
@@ -100,6 +113,7 @@ export default function CreateBlog() {
           placeholder="Enter your blog title"
         />
       </Field>
+
       <Field error={errors.tags}>
         <input
           {...register("tags")}
@@ -109,6 +123,7 @@ export default function CreateBlog() {
           placeholder="Your Comma Separated Tags Ex. JavaScript, React, Node, Express,"
         />
       </Field>
+
       <Field error={errors.content}>
         <textarea
           {...register("content", { required: "Content is required" })}
@@ -116,14 +131,14 @@ export default function CreateBlog() {
           name="content"
           placeholder="Write your blog content"
           rows={8}
-          defaultValue={""}
         />
       </Field>
+
       <button
         type="submit"
         className="bg-indigo-600 text-white px-6 py-2 md:py-3 rounded-md hover:bg-indigo-700 transition-all duration-200"
       >
-        Create Blog
+        Update Blog
       </button>
     </form>
   );

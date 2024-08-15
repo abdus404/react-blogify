@@ -6,6 +6,7 @@ import "./index.css";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import BlogIdProvider from "./providers/BlogIdProvider.jsx";
 import BlogProvider from "./providers/BlogProvider.jsx";
+import EditBlogProvider from "./providers/EditBlogProvider.jsx";
 import ProfileProvider from "./providers/ProfileProvider.jsx";
 import UserIdProvider from "./providers/UserIdProvider.jsx";
 
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <UserIdProvider>
           <BlogProvider>
             <BlogIdProvider>
-              <Router>
-                <App />
-              </Router>
+              <EditBlogProvider>
+                <Router>
+                  <App />
+                </Router>
+              </EditBlogProvider>
             </BlogIdProvider>
           </BlogProvider>
         </UserIdProvider>

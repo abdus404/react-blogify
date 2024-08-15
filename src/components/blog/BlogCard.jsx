@@ -41,10 +41,15 @@ export default function BlogCard({ blogs }) {
     setPopupBlogId(popupBlogId === blogId ? null : blogId);
   };
 
+  // Sort blogs by date in descending order (assuming a createdAt field)
+  const sortedBlogs = blogs.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   return (
     <>
-      {blogs.length > 0 &&
-        blogs.map((blog) => (
+      {sortedBlogs.length > 0 &&
+        sortedBlogs.map((blog) => (
           <div
             key={blog?.id}
             className="blog-card"
