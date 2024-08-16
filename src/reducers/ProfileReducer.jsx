@@ -57,7 +57,7 @@ const profileReducer = (state, action) => {
         loading: false,
         avatar: {
           ...state,
-          avatar: action.data.avatar,
+          avatar: action.data.user.avatar,
         },
       };
     }
