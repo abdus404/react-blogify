@@ -1,6 +1,5 @@
 import CommentIcon from "../../assets/icons/comment.svg";
 import FavouriteButton from "./FavouriteButton";
-
 import LikeButton from "./LikeButton";
 
 export default function FloatingAction({ blog }) {

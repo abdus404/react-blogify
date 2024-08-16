@@ -6,7 +6,6 @@ import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 
 export default function LikeButton({ blog }) {
-  console.log(blog);
   const blogId = blog?.id;
   const { api } = useAxios();
   const { auth } = useAuth();
