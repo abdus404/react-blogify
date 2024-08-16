@@ -1,22 +1,17 @@
 import CommentIcon from "../../assets/icons/comment.svg";
-import HeartIcon from "../../assets/icons/heart.svg";
-import LikeIcon from "../../assets/icons/like.svg";
+import FavouriteButton from "./FavouriteButton";
 
-export default function FloatingAction() {
+import LikeButton from "./LikeButton";
+
+export default function FloatingAction({ blog }) {
   return (
     <div className="floating-action">
       <ul className="floating-action-menus">
-        <li>
-          <img src={LikeIcon} alt="like" />
-          <span>10</span>
-        </li>
-        <li>
-          {/* There is heart-filled.svg in the icons folder */}
-          <img src={CommentIcon} alt="Favourite" />
-        </li>
+        <LikeButton blog={blog} />
+        <FavouriteButton blog={blog} />
         <a href="#comments">
           <li>
-            <img src={HeartIcon} />
+            <img src={CommentIcon} />
             <span>3</span>
           </li>
         </a>
