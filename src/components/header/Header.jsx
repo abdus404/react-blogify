@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import profileAvatar from "../../assets/profileAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import { useUserId } from "../../hooks/useUserId";
 import Login from "./Login";
@@ -13,11 +14,6 @@ export default function Header() {
 
   const avatar = auth?.user?.avatar;
   const isLoggedIn = auth?.token?.accessToken;
-
-  // Generate initial for avatar if no avatar image is available
-  const generateAvatarInitial = (firstName) => {
-    return firstName ? firstName.charAt(0).toUpperCase() : "U";
-  };
 
   const handleProfile = () => {
     // Assuming the user's ID is stored in auth.user.id
@@ -71,11 +67,11 @@ export default function Header() {
                       className="w-8 h-8 rounded-full"
                     />
                   ) : (
-                    <div className="w-8 h-8 flex items-center justify-center bg-orange-600 text-white rounded-full">
-                      <span>
-                        {generateAvatarInitial(auth?.user?.firstName)}
-                      </span>
-                    </div>
+                    <img
+                      src={profileAvatar}
+                      alt="User Avatar"
+                      className="w-8 h-8 rounded-full"
+                    />
                   )}
                   <Link to="/profile">
                     <span className="text-white ml-2">

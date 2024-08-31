@@ -40,7 +40,7 @@ export default function SingleBlogPage() {
     <>
       <main>
         <PostSection blog={blog} />
-        <CommentSection comments={blog?.comments} />
+        <CommentSection blog={blog} />
       </main>
       <FloatingAction blog={blog} />
     </>

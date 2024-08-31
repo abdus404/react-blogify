@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import profileAvatar from "../../assets/profileAvatar.png";
 import { useUserId } from "../../hooks/useUserId";
 import { formatDate } from "../../utils/formatDate";
 
@@ -23,6 +24,7 @@ export default function BlogAuthor({ blog }) {
       return `${likeCount} Likes`;
     }
   };
+  console.log(blog);
 
   return (
     <div className="flex justify-between items-center">
@@ -31,13 +33,21 @@ export default function BlogAuthor({ blog }) {
         className="flex items-center capitalize space-x-2"
       >
         <div className="avater-img bg-indigo-600 text-white">
-          <img
-            className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
-            src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${
-              blog?.author?.avatar
-            }`}
-            alt="Avatar"
-          />
+          {blog?.author?.avatar ? (
+            <img
+              className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
+              src={`${import.meta.env.VITE_SERVER_BASE_URL}/uploads/avatar/${
+                blog?.author?.avatar
+              }`}
+              alt="Avatar"
+            />
+          ) : (
+            <img
+              className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
+              src={profileAvatar}
+              alt="Avatar"
+            />
+          )}
         </div>
         <div>
           <h5 className="text-slate-500 text-sm">{`${blog?.author?.firstName} ${blog?.author?.lastName}`}</h5>

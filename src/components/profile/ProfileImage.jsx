@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { actions } from "../../actions";
 import EditIcon from "../../assets/icons/edit.svg";
+import ProfileAvatar from "../../assets/profileAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 import { useProfile } from "../../hooks/useProfile";
@@ -66,11 +67,19 @@ export default function ProfileImage() {
   return (
     <div className="relative mb-8 max-h-[180px] max-w-[180px] h-[120px] w-[120px] rounded-full lg:mb-11 lg:max-h-[218px] lg:max-w-[218px]">
       <div>
-        <img
-          className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
-          src={avatarUrl}
-          alt="Avatar"
-        />
+        {state?.avatar ? (
+          <img
+            className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
+            src={avatarUrl}
+            alt="Avatar"
+          />
+        ) : (
+          <img
+            className="w-full h-full bg-orange-600 text-white grid place-items-center text-5xl rounded-full"
+            src={ProfileAvatar}
+            alt="Avatar"
+          />
+        )}
       </div>
       {isProfileOwner && (
         <>
